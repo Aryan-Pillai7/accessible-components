@@ -14,14 +14,22 @@ Implements the [APG Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
   <!-- role="tab": turns each button into a tab, so it's announced as "tab 1 of 2". -->
   <!-- aria-selected: exposes which tab is active; there's no native state for this. -->
   <!-- aria-controls: programmatically ties the tab to its panel. -->
-  <button class="tabs__tab" role="tab" id="tab-a" aria-controls="panel-a" aria-selected="true">Profile</button>
-  <button class="tabs__tab" role="tab" id="tab-b" aria-controls="panel-b" aria-selected="false">Security</button>
+  <button class="tabs__tab" role="tab" id="tab-a" aria-controls="panel-a" aria-selected="true">
+    Profile
+  </button>
+  <button class="tabs__tab" role="tab" id="tab-b" aria-controls="panel-b" aria-selected="false">
+    Security
+  </button>
 </div>
 
 <!-- role="tabpanel": identifies the region a tab reveals. -->
 <!-- aria-labelledby: names the panel after its tab. -->
-<div class="tabs__panel" role="tabpanel" id="panel-a" aria-labelledby="tab-a" tabindex="0">Profile settings</div>
-<div class="tabs__panel" role="tabpanel" id="panel-b" aria-labelledby="tab-b" tabindex="0">Security settings</div>
+<div class="tabs__panel" role="tabpanel" id="panel-a" aria-labelledby="tab-a" tabindex="0">
+  Profile settings
+</div>
+<div class="tabs__panel" role="tabpanel" id="panel-b" aria-labelledby="tab-b" tabindex="0">
+  Security settings
+</div>
 
 <script type="module">
   import { createTabs } from './components/tabs/tabs.js';
@@ -36,36 +44,36 @@ Implements the [APG Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 
 `select(index)` changes the active tab without moving focus or calling `onChange`. `destroy()` removes all listeners and restores the original attributes.
 
-| Option     | Type       | Description |
-| ---------- | ---------- | ----------- |
+| Option     | Type       | Description                                                            |
+| ---------- | ---------- | ---------------------------------------------------------------------- |
 | `onChange` | `function` | Called with the newly selected tab element when the selection changes. |
 
 The initially active tab comes from `aria-selected="true"` in the markup, defaulting to the first.
 
 ## Keyboard interactions
 
-| Key         | Action |
-| ----------- | ------ |
+| Key         | Action                                                          |
+| ----------- | --------------------------------------------------------------- |
 | Tab         | Moves into the tab list onto the active tab, then to the panel. |
-| Shift+Tab   | Moves back out in reverse order. |
-| Right Arrow | Activates and focuses the next tab; wraps. |
-| Left Arrow  | Activates and focuses the previous tab; wraps. |
-| Home        | Activates and focuses the first tab. |
-| End         | Activates and focuses the last tab. |
+| Shift+Tab   | Moves back out in reverse order.                                |
+| Right Arrow | Activates and focuses the next tab; wraps.                      |
+| Left Arrow  | Activates and focuses the previous tab; wraps.                  |
+| Home        | Activates and focuses the first tab.                            |
+| End         | Activates and focuses the last tab.                             |
 
 The tabs use roving tabindex: only the active tab is in the page's Tab order.
 
 ## ARIA roles and states
 
-| Attribute         | Where     | Why it's needed |
-| ----------------- | --------- | --------------- |
-| `role="tablist"`  | Container | HTML has no tab list element. Groups the tabs. |
-| `aria-label`      | Tab list  | Names the tab set. Use `aria-labelledby` if a visible heading exists. |
-| `role="tab"`      | `<button>` | Conveys tab semantics and position. |
-| `aria-selected`   | Tab       | Conveys the active tab; no native equivalent. |
-| `aria-controls`   | Tab       | Associates the tab with its panel. |
-| `role="tabpanel"` | Panel     | Identifies the content region. |
-| `aria-labelledby` | Panel     | Names the panel after its tab. |
+| Attribute         | Where      | Why it's needed                                                       |
+| ----------------- | ---------- | --------------------------------------------------------------------- |
+| `role="tablist"`  | Container  | HTML has no tab list element. Groups the tabs.                        |
+| `aria-label`      | Tab list   | Names the tab set. Use `aria-labelledby` if a visible heading exists. |
+| `role="tab"`      | `<button>` | Conveys tab semantics and position.                                   |
+| `aria-selected`   | Tab        | Conveys the active tab; no native equivalent.                         |
+| `aria-controls`   | Tab        | Associates the tab with its panel.                                    |
+| `role="tabpanel"` | Panel      | Identifies the content region.                                        |
+| `aria-labelledby` | Panel      | Names the panel after its tab.                                        |
 
 ## Accessibility notes
 

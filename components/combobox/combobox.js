@@ -8,13 +8,10 @@ export function createCombobox(root, { onSelect } = {}) {
   const listbox = root.querySelector('[role="listbox"]');
   const status = root.querySelector('[role="status"]');
   const options = [...listbox.querySelectorAll('[role="option"]')];
-  const restore = snapshotAttributes([input, listbox, ...options], [
-    'aria-expanded',
-    'aria-activedescendant',
-    'aria-selected',
-    'hidden',
-    'id',
-  ]);
+  const restore = snapshotAttributes(
+    [input, listbox, ...options],
+    ['aria-expanded', 'aria-activedescendant', 'aria-selected', 'hidden', 'id'],
+  );
   options.forEach((option, i) => {
     option.id = `${listbox.id}-${i}`;
   });

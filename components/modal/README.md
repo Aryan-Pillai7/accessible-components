@@ -36,26 +36,26 @@ Implements the [APG Dialog (Modal) pattern](https://www.w3.org/WAI/ARIA/apg/patt
 
 `destroy()` removes all listeners. If the dialog is open it also closes it and returns focus, without calling `onClose`.
 
-| Option    | Type       | Description                          |
-| --------- | ---------- | ------------------------------------ |
+| Option    | Type       | Description                                                |
+| --------- | ---------- | ---------------------------------------------------------- |
 | `onClose` | `function` | Called after the dialog has closed and focus has returned. |
 
 Any element inside the dialog with `data-modal-close` closes it on click. Put `autofocus` on an element to focus it first; otherwise the first focusable element gets focus.
 
 ## Keyboard interactions
 
-| Key         | Action |
-| ----------- | ------ |
-| Tab         | Next focusable element in the dialog; wraps from last to first. |
-| Shift+Tab   | Previous focusable element in the dialog; wraps from first to last. |
-| Escape      | Closes the dialog and returns focus to the element that opened it. |
+| Key       | Action                                                              |
+| --------- | ------------------------------------------------------------------- |
+| Tab       | Next focusable element in the dialog; wraps from last to first.     |
+| Shift+Tab | Previous focusable element in the dialog; wraps from first to last. |
+| Escape    | Closes the dialog and returns focus to the element that opened it.  |
 
 ## ARIA roles and states
 
-| Attribute          | Where      | Why it's needed |
-| ------------------ | ---------- | --------------- |
+| Attribute          | Where      | Why it's needed                                                              |
+| ------------------ | ---------- | ---------------------------------------------------------------------------- |
 | `aria-labelledby`  | `<dialog>` | Gives the dialog its accessible name. Native `<dialog>` has none by default. |
-| `aria-describedby` | `<dialog>` | Optional. Associates the supporting text so it's read on open. |
+| `aria-describedby` | `<dialog>` | Optional. Associates the supporting text so it's read on open.               |
 
 `role="dialog"` and `aria-modal="true"` are deliberately absent: `<dialog>` opened with `showModal()` already exposes both.
 

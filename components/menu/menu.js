@@ -6,11 +6,10 @@ export function createMenu(button, { onSelect } = {}) {
   const menu = document.getElementById(button.getAttribute('aria-controls'));
   const items = [...menu.querySelectorAll('[role="menuitem"]')];
   const isOpen = () => button.getAttribute('aria-expanded') === 'true';
-  const restore = snapshotAttributes([button, menu, ...items], [
-    'aria-expanded',
-    'hidden',
-    'tabindex',
-  ]);
+  const restore = snapshotAttributes(
+    [button, menu, ...items],
+    ['aria-expanded', 'hidden', 'tabindex'],
+  );
 
   function open(item) {
     button.setAttribute('aria-expanded', 'true');

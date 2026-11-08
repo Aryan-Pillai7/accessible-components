@@ -28,24 +28,24 @@ Implements the [APG Switch pattern](https://www.w3.org/WAI/ARIA/apg/patterns/swi
 
 `createSwitch(input, options)` returns `{ destroy() }`, which removes the listeners. The native checkbox keeps working.
 
-| Option     | Type       | Description |
-| ---------- | ---------- | ----------- |
+| Option     | Type       | Description                            |
+| ---------- | ---------- | -------------------------------------- |
 | `onChange` | `function` | Called with the new `checked` boolean. |
 
 Set the initial state with the native `checked` attribute.
 
 ## Keyboard interactions
 
-| Key             | Action |
-| --------------- | ------ |
-| Space           | Toggles the switch (native). |
+| Key             | Action                                                         |
+| --------------- | -------------------------------------------------------------- |
+| Space           | Toggles the switch (native).                                   |
 | Enter           | Toggles the switch (optional in APG; added by this component). |
-| Tab / Shift+Tab | Moves focus to or from the switch (native). |
+| Tab / Shift+Tab | Moves focus to or from the switch (native).                    |
 
 ## ARIA roles and states
 
-| Attribute       | Where     | Why it's needed |
-| --------------- | --------- | --------------- |
+| Attribute       | Where     | Why it's needed                                                       |
+| --------------- | --------- | --------------------------------------------------------------------- |
 | `role="switch"` | `<input>` | Changes the announcement to on/off, which suits an immediate setting. |
 
 `aria-checked` is deliberately absent: the native `checked` state is exposed automatically and can't drift out of sync.

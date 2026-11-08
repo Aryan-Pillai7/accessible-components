@@ -28,28 +28,28 @@ Non-modal notifications announced through live regions, following the [APG Alert
 
 `createToaster(root)` returns `{ show(message, options), destroy() }`. `show` returns a function that dismisses that toast. `destroy()` removes every visible toast and cancels its timer.
 
-| Option     | Type     | Default  | Description |
-| ---------- | -------- | -------- | ----------- |
-| `severity` | `string` | `'info'` | `'info'`, `'success'`, `'warning'` or `'error'`. |
+| Option     | Type     | Default                                    | Description                                                       |
+| ---------- | -------- | ------------------------------------------ | ----------------------------------------------------------------- |
+| `severity` | `string` | `'info'`                                   | `'info'`, `'success'`, `'warning'` or `'error'`.                  |
 | `duration` | `number` | 5000 for info/success, 0 for warning/error | Milliseconds before auto-dismissal. `0` keeps it until dismissed. |
 
 ## Keyboard interactions
 
-| Key             | Where         | Action |
-| --------------- | ------------- | ------ |
-| Tab / Shift+Tab | Page          | Reaches the Dismiss button in normal Tab order. |
-| Enter / Space   | Dismiss       | Dismisses the toast and returns focus to where it came from. |
-| Escape          | Inside toast  | Dismisses the toast and returns focus to where it came from. |
+| Key             | Where        | Action                                                       |
+| --------------- | ------------ | ------------------------------------------------------------ |
+| Tab / Shift+Tab | Page         | Reaches the Dismiss button in normal Tab order.              |
+| Enter / Space   | Dismiss      | Dismisses the toast and returns focus to where it came from. |
+| Escape          | Inside toast | Dismisses the toast and returns focus to where it came from. |
 
 APG defines no keyboard interaction for alerts; these come from the native button, plus Escape as a convenience.
 
 ## ARIA roles and states
 
-| Attribute            | Where          | Why it's needed |
-| -------------------- | -------------- | --------------- |
-| `role="status"`      | Polite region  | Announces info and success without interrupting. |
-| `role="alert"`       | Assertive region | Announces warnings and errors immediately. |
-| `aria-atomic="false"`| Both regions   | Announces only the newly added toast, not all of them. |
+| Attribute             | Where            | Why it's needed                                        |
+| --------------------- | ---------------- | ------------------------------------------------------ |
+| `role="status"`       | Polite region    | Announces info and success without interrupting.       |
+| `role="alert"`        | Assertive region | Announces warnings and errors immediately.             |
+| `aria-atomic="false"` | Both regions     | Announces only the newly added toast, not all of them. |
 
 ## Accessibility notes
 

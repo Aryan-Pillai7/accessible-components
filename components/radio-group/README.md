@@ -34,18 +34,18 @@ Implements the [APG Radio Group pattern](https://www.w3.org/WAI/ARIA/apg/pattern
 
 `createRadioGroup(fieldset, options)` returns `{ destroy() }`, which removes the listeners. The native radios keep working.
 
-| Option     | Type       | Description |
-| ---------- | ---------- | ----------- |
+| Option     | Type       | Description                               |
+| ---------- | ---------- | ----------------------------------------- |
 | `onChange` | `function` | Called with the selected radio's `value`. |
 
 ## Keyboard interactions
 
-| Key                | Action |
-| ------------------ | ------ |
+| Key                | Action                                                                                                            |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------- |
 | Tab / Shift+Tab    | Moves into or out of the group. Focus lands on the checked radio, or the first radio if none is checked (native). |
-| Down / Right Arrow | Moves to and checks the next radio; wraps. |
-| Up / Left Arrow    | Moves to and checks the previous radio; wraps. |
-| Space              | Checks the focused radio (native). |
+| Down / Right Arrow | Moves to and checks the next radio; wraps.                                                                        |
+| Up / Left Arrow    | Moves to and checks the previous radio; wraps.                                                                    |
+| Space              | Checks the focused radio (native).                                                                                |
 
 The browser supplies roving tabindex for radios that share a `name`, so no `tabindex` is written.
 

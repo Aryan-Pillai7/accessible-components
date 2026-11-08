@@ -32,14 +32,30 @@
 }
 
 /* The severity is also written out in text, so color is never the only cue. */
-.toast--info { border-left-color: var(--color-info); }
-.toast--info strong { color: var(--color-info); }
-.toast--success { border-left-color: var(--color-success); }
-.toast--success strong { color: var(--color-success); }
-.toast--warning { border-left-color: var(--color-warning); }
-.toast--warning strong { color: var(--color-warning); }
-.toast--error { border-left-color: var(--color-danger); }
-.toast--error strong { color: var(--color-danger); }
+.toast--info {
+  border-left-color: var(--color-info);
+}
+.toast--info strong {
+  color: var(--color-info);
+}
+.toast--success {
+  border-left-color: var(--color-success);
+}
+.toast--success strong {
+  color: var(--color-success);
+}
+.toast--warning {
+  border-left-color: var(--color-warning);
+}
+.toast--warning strong {
+  color: var(--color-warning);
+}
+.toast--error {
+  border-left-color: var(--color-danger);
+}
+.toast--error strong {
+  color: var(--color-danger);
+}
 
 .toast__dismiss {
   padding: var(--space-1) var(--space-2);

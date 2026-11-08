@@ -15,8 +15,15 @@ Implements the [APG Combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/c
   <!-- aria-expanded: exposes whether the list is showing. -->
   <!-- aria-controls: ties the input to its listbox. -->
   <!-- aria-activedescendant (set by the script): names the highlighted option, because DOM focus stays in the input. -->
-  <input class="combobox__input" id="fruit-input" role="combobox" aria-autocomplete="list"
-         aria-expanded="false" aria-controls="fruit-list" autocomplete="off" />
+  <input
+    class="combobox__input"
+    id="fruit-input"
+    role="combobox"
+    aria-autocomplete="list"
+    aria-expanded="false"
+    aria-controls="fruit-list"
+    autocomplete="off"
+  />
   <!-- role="listbox" and role="option": native <select> can't be filtered or restyled like this. -->
   <!-- aria-label: names the listbox, which has no visible label of its own. -->
   <ul class="combobox__list" id="fruit-list" role="listbox" aria-label="Fruit">
@@ -39,39 +46,39 @@ Implements the [APG Combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/c
 
 `createCombobox(root, options)` returns `{ destroy() }`, which removes all listeners, clears the status text and restores the original attributes. The typed value is left alone.
 
-| Option     | Type       | Description |
-| ---------- | ---------- | ----------- |
+| Option     | Type       | Description                           |
+| ---------- | ---------- | ------------------------------------- |
 | `onSelect` | `function` | Called with the chosen option's text. |
 
 ## Keyboard interactions
 
-| Key               | Action |
-| ----------------- | ------ |
-| Printable keys    | Edit the text, filter the list and announce the result count. |
-| Down Arrow        | Opens the list if needed and highlights the next option; wraps. |
-| Up Arrow          | Opens the list if needed and highlights the previous option; wraps. |
-| Alt+Down Arrow    | Opens the list without highlighting an option. |
-| Alt+Up Arrow      | Closes the list. |
-| Enter             | Accepts the highlighted option and closes the list. |
-| Escape            | Closes the list; if already closed, clears the text. |
-| Home / End        | Moves the caret and returns visual focus to the text. |
-| Left / Right Arrow | Moves the caret and returns visual focus to the text. |
-| Tab / Shift+Tab   | Leaves the input; the list closes without accepting. |
+| Key                | Action                                                              |
+| ------------------ | ------------------------------------------------------------------- |
+| Printable keys     | Edit the text, filter the list and announce the result count.       |
+| Down Arrow         | Opens the list if needed and highlights the next option; wraps.     |
+| Up Arrow           | Opens the list if needed and highlights the previous option; wraps. |
+| Alt+Down Arrow     | Opens the list without highlighting an option.                      |
+| Alt+Up Arrow       | Closes the list.                                                    |
+| Enter              | Accepts the highlighted option and closes the list.                 |
+| Escape             | Closes the list; if already closed, clears the text.                |
+| Home / End         | Moves the caret and returns visual focus to the text.               |
+| Left / Right Arrow | Moves the caret and returns visual focus to the text.               |
+| Tab / Shift+Tab    | Leaves the input; the list closes without accepting.                |
 
 ## ARIA roles and states
 
-| Attribute               | Where    | Why it's needed |
-| ----------------------- | -------- | --------------- |
-| `role="combobox"`       | `<input>` | Identifies the input as controlling a popup. |
-| `aria-autocomplete="list"` | `<input>` | Tells users that suggestions are filtered as they type. |
-| `aria-expanded`         | `<input>` | Conveys whether the list is showing. |
-| `aria-controls`         | `<input>` | Associates the input with its listbox. |
-| `aria-activedescendant` | `<input>` | Announces the highlighted option while DOM focus stays in the input. |
-| `role="listbox"`        | `<ul>`   | Gives the suggestions list semantics. |
-| `aria-label`            | Listbox  | Names the listbox. |
-| `role="option"`         | `<li>`   | Identifies each suggestion. |
-| `aria-selected`         | Option   | Marks the highlighted option; required on options. |
-| `role="status"`         | Status   | Politely announces the number of results. |
+| Attribute                  | Where     | Why it's needed                                                      |
+| -------------------------- | --------- | -------------------------------------------------------------------- |
+| `role="combobox"`          | `<input>` | Identifies the input as controlling a popup.                         |
+| `aria-autocomplete="list"` | `<input>` | Tells users that suggestions are filtered as they type.              |
+| `aria-expanded`            | `<input>` | Conveys whether the list is showing.                                 |
+| `aria-controls`            | `<input>` | Associates the input with its listbox.                               |
+| `aria-activedescendant`    | `<input>` | Announces the highlighted option while DOM focus stays in the input. |
+| `role="listbox"`           | `<ul>`    | Gives the suggestions list semantics.                                |
+| `aria-label`               | Listbox   | Names the listbox.                                                   |
+| `role="option"`            | `<li>`    | Identifies each suggestion.                                          |
+| `aria-selected`            | Option    | Marks the highlighted option; required on options.                   |
+| `role="status"`            | Status    | Politely announces the number of results.                            |
 
 ## Accessibility notes
 

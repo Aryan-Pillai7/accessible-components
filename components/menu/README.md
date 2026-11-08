@@ -12,7 +12,13 @@ Implements the [APG Menu Button pattern](https://www.w3.org/WAI/ARIA/apg/pattern
   <!-- aria-haspopup="menu": tells users the button opens a menu. -->
   <!-- aria-expanded: exposes open/closed; a plain button has no such state. -->
   <!-- aria-controls: ties the button to its menu. -->
-  <button id="actions" class="menu__button" aria-haspopup="menu" aria-expanded="false" aria-controls="actions-menu">
+  <button
+    id="actions"
+    class="menu__button"
+    aria-haspopup="menu"
+    aria-expanded="false"
+    aria-controls="actions-menu"
+  >
     Actions
   </button>
   <!-- role="menu": HTML has no equivalent for an application-style action menu. -->
@@ -37,36 +43,36 @@ Implements the [APG Menu Button pattern](https://www.w3.org/WAI/ARIA/apg/pattern
 
 `createMenu(button, options)` returns `{ destroy() }`, which removes all listeners and restores the original attributes.
 
-| Option     | Type       | Description |
-| ---------- | ---------- | ----------- |
+| Option     | Type       | Description                                             |
+| ---------- | ---------- | ------------------------------------------------------- |
 | `onSelect` | `function` | Called with the chosen menu item after the menu closes. |
 
 ## Keyboard interactions
 
-| Key                 | Where  | Action |
-| ------------------- | ------ | ------ |
-| Enter / Space       | Button | Opens the menu and focuses the first item. |
-| Down Arrow          | Button | Opens the menu and focuses the first item. |
-| Up Arrow            | Button | Opens the menu and focuses the last item. |
-| Down Arrow          | Menu   | Next item; wraps. |
-| Up Arrow            | Menu   | Previous item; wraps. |
-| Home                | Menu   | First item. |
-| End                 | Menu   | Last item. |
-| A–Z, 0–9            | Menu   | Next item starting with that character (typeahead). |
-| Enter / Space       | Menu   | Activates the item, closes, and returns focus to the button. |
-| Escape              | Menu   | Closes and returns focus to the button. |
-| Tab / Shift+Tab     | Menu   | Closes the menu and continues from the button. |
+| Key             | Where  | Action                                                       |
+| --------------- | ------ | ------------------------------------------------------------ |
+| Enter / Space   | Button | Opens the menu and focuses the first item.                   |
+| Down Arrow      | Button | Opens the menu and focuses the first item.                   |
+| Up Arrow        | Button | Opens the menu and focuses the last item.                    |
+| Down Arrow      | Menu   | Next item; wraps.                                            |
+| Up Arrow        | Menu   | Previous item; wraps.                                        |
+| Home            | Menu   | First item.                                                  |
+| End             | Menu   | Last item.                                                   |
+| A–Z, 0–9        | Menu   | Next item starting with that character (typeahead).          |
+| Enter / Space   | Menu   | Activates the item, closes, and returns focus to the button. |
+| Escape          | Menu   | Closes and returns focus to the button.                      |
+| Tab / Shift+Tab | Menu   | Closes the menu and continues from the button.               |
 
 ## ARIA roles and states
 
-| Attribute               | Where      | Why it's needed |
-| ----------------------- | ---------- | --------------- |
-| `aria-haspopup="menu"`  | `<button>` | Announces that activating it opens a menu. |
-| `aria-expanded`         | `<button>` | Conveys open or closed; no native state on a button. |
-| `aria-controls`         | `<button>` | Associates the button with its menu. |
-| `role="menu"`           | Container  | HTML has no native action-menu element. |
-| `aria-labelledby`       | Menu       | Gives the menu a name from its button. |
-| `role="menuitem"`       | `<button>` | Conveys menu item semantics and position. |
+| Attribute              | Where      | Why it's needed                                      |
+| ---------------------- | ---------- | ---------------------------------------------------- |
+| `aria-haspopup="menu"` | `<button>` | Announces that activating it opens a menu.           |
+| `aria-expanded`        | `<button>` | Conveys open or closed; no native state on a button. |
+| `aria-controls`        | `<button>` | Associates the button with its menu.                 |
+| `role="menu"`          | Container  | HTML has no native action-menu element.              |
+| `aria-labelledby`      | Menu       | Gives the menu a name from its button.               |
+| `role="menuitem"`      | `<button>` | Conveys menu item semantics and position.            |
 
 ## Accessibility notes
 
