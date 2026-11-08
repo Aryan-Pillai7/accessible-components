@@ -54,7 +54,7 @@ Set the initial state with the native `checked` attribute.
 
 ### For designers
 
-- The thumb's position must show state, so it remains clear without color.
+- The thumb's position and shape show state (a small dot when off, a long bar when on), so it remains clear without color.
 - The label should name the setting ("Email notifications") and stay the same in both states.
 - A switch should take effect immediately. If the change needs a Save button, use a checkbox.
 

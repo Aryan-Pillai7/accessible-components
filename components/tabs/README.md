@@ -79,7 +79,7 @@ The tabs use roving tabindex: only the active tab is in the page's Tab order.
 
 ### For designers
 
-- The selected tab must differ by more than color. Here it has an underline and bold text.
+- The selected tab must differ by more than color. Here it has an accent bar and italic text.
 - Keep labels short. Tabs wrap onto new lines at 200% zoom instead of scrolling.
 - Don't use tabs for sequential steps; use them only for peer sections.
 

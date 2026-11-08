@@ -69,7 +69,7 @@ Initial state comes from `aria-expanded` in the markup.
 
 ### For designers
 
-- Show state with an icon or glyph, not color alone. Here it's + and −.
+- Show state with an icon or glyph, not color alone. Here it's + and −, and open headings are bold.
 - Make the whole header row the click target.
 - Long headers wrap at 200% zoom, so don't design for a single line.
 

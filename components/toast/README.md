@@ -55,7 +55,7 @@ APG defines no keyboard interaction for alerts; these come from the native butto
 
 ### For designers
 
-- Severity is written in text ("Error:") and in color; never rely on color alone.
+- Severity is written in text ("Error:") and set by the border: thin for info, double for success, dashed for warning, a solid inverted slab for error. Never rely on color alone.
 - Keep messages short and don't put essential actions only in a toast.
 - Errors and warnings stay until dismissed because they may need action.
 - The stack scrolls vertically if it exceeds the viewport at 200% zoom.

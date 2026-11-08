@@ -57,12 +57,13 @@ None. Native elements provide everything this pattern needs, so adding ARIA woul
 
 ### For designers
 
-- Selection is shown by a heavy ring, so it doesn't depend on hue.
+- This is a segmented control: the selected segment is an inverted slab with bold text, so it doesn't depend on hue.
 - Keep the visible group label; it's what `<legend>` announces.
-- At 200% zoom, options stack in a single column.
+- At 200% zoom, segments wrap onto new lines instead of scrolling.
 
 ### For developers
 
+- The native radio is stretched invisibly over each segment and styled through `:has(:checked)`, so it stays the real, focusable control.
 - All radios in a group need the same `name`, or arrow keys and Tab order fall apart.
 - Don't replace these with `div role="radio"`; you'd have to rebuild focus and state by hand.
 - Moving with arrows checks the radio and fires `change`, so don't run expensive work per change.
