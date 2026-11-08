@@ -6,7 +6,7 @@ Implements the [APG Dialog (Modal) pattern](https://www.w3.org/WAI/ARIA/apg/patt
 
 ```html
 <link rel="stylesheet" href="tokens.css" />
-<link rel="stylesheet" href="components/modal/component.css" />
+<link rel="stylesheet" href="components/modal/modal.css" />
 
 <button id="open" class="modal-trigger">Delete file</button>
 
@@ -23,7 +23,7 @@ Implements the [APG Dialog (Modal) pattern](https://www.w3.org/WAI/ARIA/apg/patt
 </dialog>
 
 <script type="module">
-  import { createModal } from './components/modal/component.js';
+  import { createModal } from './components/modal/modal.js';
 
   const modal = createModal(document.getElementById('confirm'));
   document.getElementById('open').addEventListener('click', modal.open);

@@ -6,7 +6,7 @@ Implements the [APG Menu Button pattern](https://www.w3.org/WAI/ARIA/apg/pattern
 
 ```html
 <link rel="stylesheet" href="tokens.css" />
-<link rel="stylesheet" href="components/menu/component.css" />
+<link rel="stylesheet" href="components/menu/menu.css" />
 
 <div class="menu">
   <!-- aria-haspopup="menu": tells users the button opens a menu. -->
@@ -25,7 +25,7 @@ Implements the [APG Menu Button pattern](https://www.w3.org/WAI/ARIA/apg/pattern
 </div>
 
 <script type="module">
-  import { createMenu } from './components/menu/component.js';
+  import { createMenu } from './components/menu/menu.js';
 
   createMenu(document.getElementById('actions'), {
     onSelect: (item) => console.log(item.textContent),

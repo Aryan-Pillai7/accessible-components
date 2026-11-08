@@ -6,7 +6,7 @@ Implements the [APG Accordion pattern](https://www.w3.org/WAI/ARIA/apg/patterns/
 
 ```html
 <link rel="stylesheet" href="tokens.css" />
-<link rel="stylesheet" href="components/accordion/component.css" />
+<link rel="stylesheet" href="components/accordion/accordion.css" />
 
 <div id="faq">
   <h3 class="accordion__heading">
@@ -25,7 +25,7 @@ Implements the [APG Accordion pattern](https://www.w3.org/WAI/ARIA/apg/patterns/
 </div>
 
 <script type="module">
-  import { createAccordion } from './components/accordion/component.js';
+  import { createAccordion } from './components/accordion/accordion.js';
 
   createAccordion(document.getElementById('faq'));
 </script>

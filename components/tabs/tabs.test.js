@@ -1,5 +1,5 @@
 import { expectNoAxeViolations, press } from '../../test-helpers.js';
-import { createTabs } from './component.js';
+import { createTabs } from './tabs.js';
 
 let tabs, panels, changes;
 

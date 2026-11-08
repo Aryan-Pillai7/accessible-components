@@ -6,7 +6,7 @@ Implements the [APG Combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/c
 
 ```html
 <link rel="stylesheet" href="tokens.css" />
-<link rel="stylesheet" href="components/combobox/component.css" />
+<link rel="stylesheet" href="components/combobox/combobox.css" />
 
 <div id="fruit" class="combobox">
   <label class="combobox__label" for="fruit-input">Fruit</label>
@@ -29,7 +29,7 @@ Implements the [APG Combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/c
 </div>
 
 <script type="module">
-  import { createCombobox } from './components/combobox/component.js';
+  import { createCombobox } from './components/combobox/combobox.js';
 
   createCombobox(document.getElementById('fruit'));
 </script>

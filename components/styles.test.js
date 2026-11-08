@@ -3,7 +3,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 const names = readdirSync('components', { withFileTypes: true })
   .filter((entry) => entry.isDirectory())
   .map((entry) => entry.name);
-const stylesheets = names.map((name) => [name, readFileSync(`components/${name}/component.css`, 'utf8')]);
+const stylesheets = names.map((name) => [name, readFileSync(`components/${name}/${name}.css`, 'utf8')]);
 
 test('all 8 components exist', () => {
   expect(names.sort()).toEqual([

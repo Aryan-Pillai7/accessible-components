@@ -1,5 +1,5 @@
 import { expectNoAxeViolations, press } from '../../test-helpers.js';
-import { createCombobox } from './component.js';
+import { createCombobox } from './combobox.js';
 
 // jsdom has no layout, so it doesn't implement this.
 Element.prototype.scrollIntoView = () => {};

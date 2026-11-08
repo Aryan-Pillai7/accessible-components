@@ -1,5 +1,5 @@
 import { expectNoAxeViolations, press } from '../../test-helpers.js';
-import { createModal } from './component.js';
+import { createModal } from './modal.js';
 
 // jsdom has HTMLDialogElement but doesn't implement these two methods.
 HTMLDialogElement.prototype.showModal = function showModal() {

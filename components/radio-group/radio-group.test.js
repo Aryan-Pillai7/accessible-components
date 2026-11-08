@@ -1,5 +1,5 @@
 import { expectNoAxeViolations, press } from '../../test-helpers.js';
-import { createRadioGroup } from './component.js';
+import { createRadioGroup } from './radio-group.js';
 
 let radios, changes;
 

@@ -1,5 +1,5 @@
 import { expectNoAxeViolations, press } from '../../test-helpers.js';
-import { createMenu } from './component.js';
+import { createMenu } from './menu.js';
 
 let button, menu, items, selected;
 

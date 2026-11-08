@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 import { expectNoAxeViolations, press } from '../../test-helpers.js';
-import { createToaster } from './component.js';
+import { createToaster } from './toast.js';
 
 let root, status, alertRegion, toaster, outside;
 

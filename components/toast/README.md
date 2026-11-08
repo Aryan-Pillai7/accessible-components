@@ -6,7 +6,7 @@ Non-modal notifications announced through live regions, following the [APG Alert
 
 ```html
 <link rel="stylesheet" href="tokens.css" />
-<link rel="stylesheet" href="components/toast/component.css" />
+<link rel="stylesheet" href="components/toast/toast.css" />
 
 <div id="toaster" class="toaster">
   <!-- role="status": polite live region; waits for the screen reader to finish. Used for info and success. -->
@@ -17,7 +17,7 @@ Non-modal notifications announced through live regions, following the [APG Alert
 </div>
 
 <script type="module">
-  import { createToaster } from './components/toast/component.js';
+  import { createToaster } from './components/toast/toast.js';
 
   const toaster = createToaster(document.getElementById('toaster'));
   toaster.show('File saved', { severity: 'success' });

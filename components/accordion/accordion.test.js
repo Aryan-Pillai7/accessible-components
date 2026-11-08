@@ -1,5 +1,5 @@
 import { expectNoAxeViolations, press } from '../../test-helpers.js';
-import { createAccordion } from './component.js';
+import { createAccordion } from './accordion.js';
 
 let triggers, panels, toggles;
 

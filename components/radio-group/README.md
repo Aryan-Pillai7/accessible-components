@@ -6,7 +6,7 @@ Implements the [APG Radio Group pattern](https://www.w3.org/WAI/ARIA/apg/pattern
 
 ```html
 <link rel="stylesheet" href="tokens.css" />
-<link rel="stylesheet" href="components/radio-group/component.css" />
+<link rel="stylesheet" href="components/radio-group/radio-group.css" />
 
 <!-- No ARIA attributes: fieldset, legend and radio inputs already expose the
      group, its name, each radio's role and checked state, and "1 of 3". -->
@@ -24,7 +24,7 @@ Implements the [APG Radio Group pattern](https://www.w3.org/WAI/ARIA/apg/pattern
 </fieldset>
 
 <script type="module">
-  import { createRadioGroup } from './components/radio-group/component.js';
+  import { createRadioGroup } from './components/radio-group/radio-group.js';
 
   createRadioGroup(document.getElementById('size'));
 </script>

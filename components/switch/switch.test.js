@@ -1,5 +1,5 @@
 import { expectNoAxeViolations, press } from '../../test-helpers.js';
-import { createSwitch } from './component.js';
+import { createSwitch } from './switch.js';
 
 let input, changes;
 

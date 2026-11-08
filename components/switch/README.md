@@ -6,7 +6,7 @@ Implements the [APG Switch pattern](https://www.w3.org/WAI/ARIA/apg/patterns/swi
 
 ```html
 <link rel="stylesheet" href="tokens.css" />
-<link rel="stylesheet" href="components/switch/component.css" />
+<link rel="stylesheet" href="components/switch/switch.css" />
 
 <label class="switch" for="notify">
   <!-- role="switch": announces "on/off" instead of "checked/not checked".
@@ -16,7 +16,7 @@ Implements the [APG Switch pattern](https://www.w3.org/WAI/ARIA/apg/patterns/swi
 </label>
 
 <script type="module">
-  import { createSwitch } from './components/switch/component.js';
+  import { createSwitch } from './components/switch/switch.js';
 
   createSwitch(document.getElementById('notify'), {
     onChange: (checked) => console.log(checked),

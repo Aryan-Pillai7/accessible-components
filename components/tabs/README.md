@@ -6,7 +6,7 @@ Implements the [APG Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 
 ```html
 <link rel="stylesheet" href="tokens.css" />
-<link rel="stylesheet" href="components/tabs/component.css" />
+<link rel="stylesheet" href="components/tabs/tabs.css" />
 
 <!-- role="tablist": HTML has no tabs element; groups the tabs for assistive tech. -->
 <!-- aria-label: names the tab set, since the tablist has no visible label of its own. -->
@@ -24,7 +24,7 @@ Implements the [APG Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 <div class="tabs__panel" role="tabpanel" id="panel-b" aria-labelledby="tab-b" tabindex="0">Security settings</div>
 
 <script type="module">
-  import { createTabs } from './components/tabs/component.js';
+  import { createTabs } from './components/tabs/tabs.js';
 
   createTabs(document.getElementById('tabs'));
 </script>
