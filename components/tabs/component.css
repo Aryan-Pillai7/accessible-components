@@ -1,0 +1,54 @@
+.tabs__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.tabs__tab {
+  padding: var(--space-2) var(--space-3);
+  font: inherit;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-bottom-width: var(--focus-width);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.tabs__tab:hover {
+  background: var(--color-hover);
+}
+
+/* The heavy accent underline keeps "selected" from depending on fill alone. */
+.tabs__tab[aria-selected='true'] {
+  font-weight: 700;
+  background: var(--color-bg);
+  border-bottom-color: var(--color-accent);
+}
+
+.tabs__panel {
+  padding: var(--space-3);
+  color: var(--color-text);
+}
+
+.tabs__tab:focus-visible,
+.tabs__panel:focus-visible {
+  outline: var(--focus-width) solid var(--color-focus);
+  outline-offset: 0.125rem;
+}
+
+@media (forced-colors: active) {
+  .tabs__list,
+  .tabs__tab {
+    border-color: ButtonText;
+  }
+
+  .tabs__tab[aria-selected='true'] {
+    border-bottom-color: Highlight;
+  }
+
+  .tabs__tab:focus-visible,
+  .tabs__panel:focus-visible {
+    outline-color: Highlight;
+  }
+}

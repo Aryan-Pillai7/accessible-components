@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Accessible UI Components</title>
+    <link rel="stylesheet" href="tokens.css" />
+    <link rel="stylesheet" href="components/modal/component.css" />
+    <link rel="stylesheet" href="components/combobox/component.css" />
+    <link rel="stylesheet" href="components/tabs/component.css" />
+    <link rel="stylesheet" href="components/menu/component.css" />
+    <link rel="stylesheet" href="components/toast/component.css" />
+    <link rel="stylesheet" href="components/accordion/component.css" />
+    <link rel="stylesheet" href="components/switch/component.css" />
+    <link rel="stylesheet" href="components/radio-group/component.css" />
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        line-height: 1.5;
+        color: var(--color-text);
+        background: var(--color-bg);
+      }
+
+      main {
+        max-width: 48rem;
+        margin: 0 auto;
+        padding: var(--space-3);
+      }
+
+      section {
+        margin-bottom: var(--space-4);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Accessible UI Components</h1>
+      <p>Each component below can be tested with a keyboard and a screen reader.</p>
+
+      <section aria-labelledby="h-modal">
+        <h2 id="h-modal">Modal</h2>
+        <button id="modal-open" class="modal-trigger">Delete file</button>
+        <dialog id="modal" class="modal" aria-labelledby="modal-title" aria-describedby="modal-desc">
+          <h3 id="modal-title">Delete this file?</h3>
+          <p id="modal-desc">This can't be undone.</p>
+          <div class="modal__actions">
+            <button data-modal-close>Cancel</button>
+            <button data-modal-close>Delete</button>
+          </div>
+        </dialog>
+      </section>
+
+      <section aria-labelledby="h-combobox">
+        <h2 id="h-combobox">Combobox</h2>
+        <div id="combobox" class="combobox">
+          <label class="combobox__label" for="combobox-input">Fruit</label>
+          <input class="combobox__input" id="combobox-input" role="combobox" aria-autocomplete="list"
+                 aria-expanded="false" aria-controls="combobox-list" autocomplete="off" />
+          <ul class="combobox__list" id="combobox-list" role="listbox" aria-label="Fruit">
+            <li class="combobox__option" role="option" aria-selected="false">Apple</li>
+            <li class="combobox__option" role="option" aria-selected="false">Apricot</li>
+            <li class="combobox__option" role="option" aria-selected="false">Banana</li>
+            <li class="combobox__option" role="option" aria-selected="false">Cherry</li>
+            <li class="combobox__option" role="option" aria-selected="false">Grape</li>
+            <li class="combobox__option" role="option" aria-selected="false">Mango</li>
+          </ul>
+          <div class="combobox__status" role="status"></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="h-tabs">
+        <h2 id="h-tabs">Tabs</h2>
+        <div id="tabs" class="tabs__list" role="tablist" aria-labelledby="h-tabs">
+          <button class="tabs__tab" role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true">Profile</button>
+          <button class="tabs__tab" role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false">Security</button>
+          <button class="tabs__tab" role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false">Billing</button>
+        </div>
+        <div class="tabs__panel" role="tabpanel" id="panel-1" aria-labelledby="tab-1" tabindex="0">Profile settings go here.</div>
+        <div class="tabs__panel" role="tabpanel" id="panel-2" aria-labelledby="tab-2" tabindex="0">Security settings go here.</div>
+        <div class="tabs__panel" role="tabpanel" id="panel-3" aria-labelledby="tab-3" tabindex="0">Billing settings go here.</div>
+      </section>
+
+      <section aria-labelledby="h-menu">
+        <h2 id="h-menu">Menu</h2>
+        <div class="menu">
+          <button id="menu-button" class="menu__button" aria-haspopup="menu" aria-expanded="false" aria-controls="menu-list">Actions</button>
+          <div id="menu-list" class="menu__list" role="menu" aria-labelledby="menu-button">
+            <button class="menu__item" role="menuitem">Copy</button>
+            <button class="menu__item" role="menuitem">Cut</button>
+            <button class="menu__item" role="menuitem">Paste</button>
+            <button class="menu__item" role="menuitem">Rename</button>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="h-toast">
+        <h2 id="h-toast">Toast</h2>
+        <button class="modal-trigger" data-severity="info">Info</button>
+        <button class="modal-trigger" data-severity="success">Success</button>
+        <button class="modal-trigger" data-severity="warning">Warning</button>
+        <button class="modal-trigger" data-severity="error">Error</button>
+      </section>
+
+      <section aria-labelledby="h-accordion">
+        <h2 id="h-accordion">Accordion</h2>
+        <div id="accordion">
+          <h3 class="accordion__heading">
+            <button class="accordion__trigger" id="acc-1" aria-expanded="true" aria-controls="acc-panel-1">Shipping</button>
+          </h3>
+          <div class="accordion__panel" id="acc-panel-1" role="region" aria-labelledby="acc-1">Orders ship within two days.</div>
+          <h3 class="accordion__heading">
+            <button class="accordion__trigger" id="acc-2" aria-expanded="false" aria-controls="acc-panel-2">Returns</button>
+          </h3>
+          <div class="accordion__panel" id="acc-panel-2" role="region" aria-labelledby="acc-2">Returns are free for 30 days.</div>
+          <h3 class="accordion__heading">
+            <button class="accordion__trigger" id="acc-3" aria-expanded="false" aria-controls="acc-panel-3">Warranty</button>
+          </h3>
+          <div class="accordion__panel" id="acc-panel-3" role="region" aria-labelledby="acc-3">Covered for one year.</div>
+        </div>
+      </section>
+
+      <section aria-labelledby="h-switch">
+        <h2 id="h-switch">Switch</h2>
+        <label class="switch" for="switch">
+          <input class="switch__input" id="switch" type="checkbox" role="switch" />
+          Email notifications
+        </label>
+      </section>
+
+      <section aria-labelledby="h-radio">
+        <h2 id="h-radio">Radio group</h2>
+        <fieldset id="radio" class="radio-group">
+          <legend class="radio-group__legend">Size</legend>
+          <label class="radio-group__option"><input class="radio-group__input" type="radio" name="size" value="s" /> Small</label>
+          <label class="radio-group__option"><input class="radio-group__input" type="radio" name="size" value="m" checked /> Medium</label>
+          <label class="radio-group__option"><input class="radio-group__input" type="radio" name="size" value="l" /> Large</label>
+        </fieldset>
+      </section>
+    </main>
+
+    <div id="toaster" class="toaster">
+      <div role="status" aria-atomic="false"></div>
+      <div role="alert" aria-atomic="false"></div>
+    </div>
+
+    <script type="module">
+      import { createModal } from './components/modal/component.js';
+      import { createCombobox } from './components/combobox/component.js';
+      import { createTabs } from './components/tabs/component.js';
+      import { createMenu } from './components/menu/component.js';
+      import { createToaster } from './components/toast/component.js';
+      import { createAccordion } from './components/accordion/component.js';
+      import { createSwitch } from './components/switch/component.js';
+      import { createRadioGroup } from './components/radio-group/component.js';
+
+      const byId = (id) => document.getElementById(id);
+
+      const modal = createModal(byId('modal'));
+      byId('modal-open').addEventListener('click', modal.open);
+
+      createCombobox(byId('combobox'));
+      createTabs(byId('tabs'));
+      createAccordion(byId('accordion'));
+      createSwitch(byId('switch'));
+      createRadioGroup(byId('radio'));
+
+      const toaster = createToaster(byId('toaster'));
+      createMenu(byId('menu-button'), {
+        onSelect: (item) => toaster.show(`${item.textContent} chosen`),
+      });
+      for (const button of document.querySelectorAll('[data-severity]')) {
+        const severity = button.dataset.severity;
+        button.addEventListener('click', () => toaster.show(`This is a ${severity} message`, { severity }));
+      }
+    </script>
+  </body>
+</html>
