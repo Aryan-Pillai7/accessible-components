@@ -1,24 +1,29 @@
 .combobox {
   position: relative;
-  max-width: 24rem;
+  max-width: 26rem;
   color: var(--color-text);
 }
 
 .combobox__label {
   display: block;
   margin-bottom: var(--space-1);
+  font-size: var(--text-small);
   font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .combobox__input {
   box-sizing: border-box;
   width: 100%;
   padding: var(--space-2);
-  font: inherit;
+  font-family: var(--font-display);
+  font-size: var(--text-large);
   color: var(--color-text);
-  background: var(--color-bg);
+  background: transparent;
   border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius);
+  border-bottom-width: var(--rule-width);
+  border-radius: 0;
 }
 
 .combobox__input:focus-visible {
@@ -33,16 +38,17 @@
   width: 100%;
   max-height: 15rem;
   margin: var(--space-1) 0 0;
-  padding: var(--space-1);
+  padding: 0;
   overflow-y: auto;
   list-style: none;
-  background: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius);
+  background: var(--color-bg);
+  border: 0.125rem solid var(--color-border);
 }
 
 .combobox__option {
   padding: var(--space-2);
+  font-family: var(--font-display);
+  font-size: 1.125rem;
 }
 
 .combobox__option:hover {
@@ -50,8 +56,8 @@
 }
 
 .combobox__option[aria-selected='true'] {
-  color: var(--color-on-accent);
-  background: var(--color-accent);
+  color: var(--color-bg);
+  background: var(--color-text);
 }
 
 .combobox__status {
@@ -73,7 +79,9 @@
     outline-color: Highlight;
   }
 
+  /* Without this, the browser paints a Canvas backplate behind the HighlightText. */
   .combobox__option[aria-selected='true'] {
+    forced-color-adjust: none;
     color: HighlightText;
     background: Highlight;
   }

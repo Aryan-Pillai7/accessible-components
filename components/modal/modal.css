@@ -1,19 +1,29 @@
 .modal {
   box-sizing: border-box;
-  width: 32rem;
+  width: 36rem;
   max-width: calc(100vw - 2rem);
   max-height: calc(100vh - 2rem);
   overflow-y: auto;
   padding: var(--space-4);
   color: var(--color-text);
   background: var(--color-bg);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius);
+  border: 0;
+  border-top: var(--rule-width) solid var(--color-accent);
+  border-bottom: var(--rule-width) solid var(--color-border);
 }
 
 .modal::backdrop {
   background: var(--color-text);
-  opacity: 0.5;
+  opacity: 0.75;
+}
+
+.modal h2,
+.modal h3 {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-huge);
+  font-weight: 400;
+  line-height: 1.15;
 }
 
 .modal__actions {
@@ -28,15 +38,19 @@
 .modal-trigger {
   padding: var(--space-2) var(--space-3);
   font: inherit;
+  font-size: var(--text-small);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--color-text);
-  background: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius);
+  background: transparent;
+  border: 0.125rem solid var(--color-border);
 }
 
 .modal button:hover,
 .modal-trigger:hover {
-  background: var(--color-hover);
+  color: var(--color-bg);
+  background: var(--color-text);
 }
 
 .modal :focus-visible,
@@ -47,7 +61,7 @@
 
 @media (forced-colors: active) {
   .modal {
-    border-color: CanvasText;
+    border: var(--rule-width) solid CanvasText;
   }
 
   .modal::backdrop {
@@ -57,6 +71,13 @@
   .modal button,
   .modal-trigger {
     border-color: ButtonText;
+  }
+
+  .modal button:hover,
+  .modal-trigger:hover {
+    forced-color-adjust: none;
+    color: HighlightText;
+    background: Highlight;
   }
 
   .modal :focus-visible,

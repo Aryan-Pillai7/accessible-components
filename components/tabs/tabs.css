@@ -1,33 +1,50 @@
 .tabs__list {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-1);
+  gap: 0 var(--space-4);
   border-bottom: var(--border-width) solid var(--color-border);
 }
 
 .tabs__tab {
-  padding: var(--space-2) var(--space-3);
-  font: inherit;
-  color: var(--color-text);
-  background: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  border-bottom-width: var(--focus-width);
-  border-radius: var(--radius) var(--radius) 0 0;
+  position: relative;
+  padding: var(--space-2) 0;
+  font-family: var(--font-display);
+  font-size: var(--text-large);
+  line-height: 1.2;
+  color: var(--color-text-muted);
+  background: none;
+  border: 0;
 }
 
 .tabs__tab:hover {
-  background: var(--color-hover);
+  color: var(--color-text);
 }
 
-/* The heavy accent underline keeps "selected" from depending on fill alone. */
+/* The bar wipes in from the left; italics mark the selected tab without relying on color. */
+.tabs__tab::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: calc(var(--border-width) * -1);
+  left: 0;
+  height: var(--rule-width);
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease-out;
+}
+
 .tabs__tab[aria-selected='true'] {
-  font-weight: 700;
-  background: var(--color-bg);
-  border-bottom-color: var(--color-accent);
+  font-style: italic;
+  color: var(--color-text);
+}
+
+.tabs__tab[aria-selected='true']::after {
+  transform: scaleX(1);
 }
 
 .tabs__panel {
-  padding: var(--space-3);
+  padding: var(--space-3) 0;
   color: var(--color-text);
 }
 
@@ -37,14 +54,24 @@
   outline-offset: 0.125rem;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .tabs__tab::after {
+    transition: none;
+  }
+}
+
 @media (forced-colors: active) {
-  .tabs__list,
-  .tabs__tab {
-    border-color: ButtonText;
+  .tabs__list {
+    border-color: CanvasText;
   }
 
-  .tabs__tab[aria-selected='true'] {
-    border-bottom-color: Highlight;
+  .tabs__tab::after {
+    display: none;
+  }
+
+  .tabs__tab[aria-selected='true']::after {
+    display: block;
+    background: Highlight;
   }
 
   .tabs__tab:focus-visible,

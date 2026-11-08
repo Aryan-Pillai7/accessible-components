@@ -4,25 +4,24 @@
   bottom: var(--space-3);
   z-index: 10;
   box-sizing: border-box;
-  width: 24rem;
+  width: 26rem;
   max-width: calc(100vw - 2rem);
   max-height: calc(100vh - 2rem);
   overflow-y: auto;
+  padding: var(--focus-width);
 }
 
 .toast {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
   margin-top: var(--space-2);
   padding: var(--space-2) var(--space-3);
   color: var(--color-text);
-  background: var(--color-surface);
+  background: var(--color-bg);
   border: var(--border-width) solid var(--color-border);
-  border-left-width: 0.375rem;
-  border-radius: var(--radius);
 }
 
 .toast__text {
@@ -31,39 +30,36 @@
   overflow-wrap: anywhere;
 }
 
-/* The severity is also written out in text, so color is never the only cue. */
-.toast--info {
-  border-left-color: var(--color-info);
+.toast__text strong {
+  display: block;
+  font-size: var(--text-small);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
-.toast--info strong {
-  color: var(--color-info);
-}
+
+/* Severity is set by the line itself, which survives forced colors: thin,
+   double, dashed, then a solid inverted slab. The label also names it in words. */
 .toast--success {
-  border-left-color: var(--color-success);
+  border: var(--rule-width) double var(--color-border);
 }
-.toast--success strong {
-  color: var(--color-success);
-}
+
 .toast--warning {
-  border-left-color: var(--color-warning);
+  border: var(--rule-width) dashed var(--color-border);
 }
-.toast--warning strong {
-  color: var(--color-warning);
-}
+
 .toast--error {
-  border-left-color: var(--color-danger);
-}
-.toast--error strong {
-  color: var(--color-danger);
+  color: var(--color-bg);
+  background: var(--color-text);
+  border: var(--rule-width) solid var(--color-accent);
 }
 
 .toast__dismiss {
   padding: var(--space-1) var(--space-2);
   font: inherit;
+  font-size: var(--text-small);
   color: var(--color-text);
   background: var(--color-bg);
   border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius);
 }
 
 .toast__dismiss:hover {

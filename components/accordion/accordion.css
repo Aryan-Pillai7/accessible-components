@@ -1,28 +1,36 @@
 .accordion__heading {
   margin: 0;
   font-size: 1em;
+  font-weight: 400;
+  border-top: var(--border-width) solid var(--color-border);
 }
 
 .accordion__trigger {
   display: flex;
+  align-items: baseline;
   justify-content: space-between;
   gap: var(--space-3);
   box-sizing: border-box;
   width: 100%;
-  padding: var(--space-2) var(--space-3);
-  font: inherit;
-  font-weight: 700;
+  padding: var(--space-2) 0;
+  font-family: var(--font-display);
+  font-size: var(--text-large);
+  line-height: 1.2;
   text-align: left;
   color: var(--color-text);
-  background: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
+  background: none;
+  border: 0;
 }
 
 .accordion__trigger:hover {
-  background: var(--color-hover);
+  text-decoration: underline;
 }
 
-/* A text glyph rather than a color change, so state survives forced colors. */
+/* Open sections step up in weight and swap the glyph, so state never relies on color. */
+.accordion__trigger[aria-expanded='true'] {
+  font-weight: 700;
+}
+
 .accordion__trigger::after {
   content: '+';
 }
@@ -37,13 +45,14 @@
 }
 
 .accordion__panel {
-  padding: var(--space-3);
+  max-width: 34rem;
+  padding: 0 0 var(--space-3);
   color: var(--color-text);
 }
 
 @media (forced-colors: active) {
-  .accordion__trigger {
-    border-color: ButtonText;
+  .accordion__heading {
+    border-color: CanvasText;
   }
 
   .accordion__trigger:focus-visible {

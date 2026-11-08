@@ -16,48 +16,129 @@
     <style>
       body {
         margin: 0;
-        font-family: system-ui, sans-serif;
+        font-family: var(--font-text);
         line-height: 1.5;
         color: var(--color-text);
         background: var(--color-bg);
       }
 
-      main {
-        max-width: 48rem;
+      .sheet {
+        max-width: 68rem;
         margin: 0 auto;
-        padding: var(--space-3);
+        padding: var(--space-5) var(--space-3);
+        counter-reset: entry;
       }
 
-      section {
-        margin-bottom: var(--space-4);
+      .masthead {
+        margin-bottom: var(--space-5);
+        padding-bottom: var(--space-3);
+        border-bottom: var(--rule-width) solid var(--color-border);
+      }
+
+      .masthead h1 {
+        margin: 0 0 var(--space-3);
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 11vw, 7rem);
+        font-weight: 400;
+        line-height: 0.95;
+        letter-spacing: -0.02em;
+      }
+
+      .masthead em {
+        color: var(--color-accent);
+      }
+
+      .masthead p {
+        max-width: 38rem;
+        margin: 0;
+        color: var(--color-text-muted);
+      }
+
+      .entry {
+        display: grid;
+        grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+        align-items: start;
+        gap: var(--space-4);
+        padding: var(--space-4) 0 var(--space-5);
+        border-top: var(--border-width) solid var(--color-border);
+        counter-increment: entry;
+      }
+
+      .entry h2 {
+        margin: 0;
+        font-family: var(--font-display);
+        font-size: var(--text-huge);
+        font-weight: 400;
+        line-height: 1.1;
+      }
+
+      .entry h2::before {
+        content: counter(entry, decimal-leading-zero);
+        display: block;
+        margin-bottom: var(--space-1);
+        font-family: var(--font-text);
+        font-size: var(--text-small);
+        font-weight: 700;
+        color: var(--color-accent);
+      }
+
+      .entry__keys {
+        margin: var(--space-2) 0 0;
+        font-size: var(--text-small);
+        color: var(--color-text-muted);
+      }
+
+      .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+      }
+
+      @media (max-width: 40em) {
+        .entry {
+          grid-template-columns: minmax(0, 1fr);
+        }
       }
     </style>
   </head>
   <body>
-    <main>
-      <h1>Accessible UI Components</h1>
-      <p>Each component below can be tested with a keyboard and a screen reader.</p>
+    <main class="sheet">
+      <header class="masthead">
+        <h1>Eight patterns, <em>set in ink.</em></h1>
+        <p>
+          Accessible UI components in plain HTML, CSS and JavaScript. Every control on this sheet
+          can be operated by keyboard, and this page is the bed for manual screen reader testing.
+        </p>
+      </header>
 
-      <section aria-labelledby="h-modal">
-        <h2 id="h-modal">Modal</h2>
-        <button id="modal-open" class="modal-trigger">Delete file</button>
-        <dialog
-          id="modal"
-          class="modal"
-          aria-labelledby="modal-title"
-          aria-describedby="modal-desc"
-        >
-          <h3 id="modal-title">Delete this file?</h3>
-          <p id="modal-desc">This can't be undone.</p>
-          <div class="modal__actions">
-            <button data-modal-close>Cancel</button>
-            <button data-modal-close>Delete</button>
-          </div>
-        </dialog>
+      <section class="entry" aria-labelledby="h-modal">
+        <div>
+          <h2 id="h-modal">Modal</h2>
+          <p class="entry__keys">Tab stays inside. Esc closes and returns focus.</p>
+        </div>
+        <div>
+          <button id="modal-open" class="modal-trigger">Delete file</button>
+          <dialog
+            id="modal"
+            class="modal"
+            aria-labelledby="modal-title"
+            aria-describedby="modal-desc"
+          >
+            <h3 id="modal-title">Delete this file?</h3>
+            <p id="modal-desc">This can't be undone.</p>
+            <div class="modal__actions">
+              <button data-modal-close>Cancel</button>
+              <button data-modal-close>Delete</button>
+            </div>
+          </dialog>
+        </div>
       </section>
 
-      <section aria-labelledby="h-combobox">
-        <h2 id="h-combobox">Combobox</h2>
+      <section class="entry" aria-labelledby="h-combobox">
+        <div>
+          <h2 id="h-combobox">Combobox</h2>
+          <p class="entry__keys">Type to filter. Up and Down choose, Enter accepts, Esc closes.</p>
+        </div>
         <div id="combobox" class="combobox">
           <label class="combobox__label" for="combobox-input">Fruit</label>
           <input
@@ -81,79 +162,123 @@
         </div>
       </section>
 
-      <section aria-labelledby="h-tabs">
-        <h2 id="h-tabs">Tabs</h2>
-        <div id="tabs" class="tabs__list" role="tablist" aria-labelledby="h-tabs">
-          <button
-            class="tabs__tab"
-            role="tab"
-            id="tab-1"
-            aria-controls="panel-1"
-            aria-selected="true"
-          >
-            Profile
-          </button>
-          <button
-            class="tabs__tab"
-            role="tab"
-            id="tab-2"
-            aria-controls="panel-2"
-            aria-selected="false"
-          >
-            Security
-          </button>
-          <button
-            class="tabs__tab"
-            role="tab"
-            id="tab-3"
-            aria-controls="panel-3"
-            aria-selected="false"
-          >
-            Billing
-          </button>
+      <section class="entry" aria-labelledby="h-tabs">
+        <div>
+          <h2 id="h-tabs">Tabs</h2>
+          <p class="entry__keys">Left and Right switch tabs. Home and End jump.</p>
         </div>
-        <div class="tabs__panel" role="tabpanel" id="panel-1" aria-labelledby="tab-1" tabindex="0">
-          Profile settings go here.
-        </div>
-        <div class="tabs__panel" role="tabpanel" id="panel-2" aria-labelledby="tab-2" tabindex="0">
-          Security settings go here.
-        </div>
-        <div class="tabs__panel" role="tabpanel" id="panel-3" aria-labelledby="tab-3" tabindex="0">
-          Billing settings go here.
-        </div>
-      </section>
-
-      <section aria-labelledby="h-menu">
-        <h2 id="h-menu">Menu</h2>
-        <div class="menu">
-          <button
-            id="menu-button"
-            class="menu__button"
-            aria-haspopup="menu"
-            aria-expanded="false"
-            aria-controls="menu-list"
+        <div>
+          <div id="tabs" class="tabs__list" role="tablist" aria-labelledby="h-tabs">
+            <button
+              class="tabs__tab"
+              role="tab"
+              id="tab-1"
+              aria-controls="panel-1"
+              aria-selected="true"
+            >
+              Profile
+            </button>
+            <button
+              class="tabs__tab"
+              role="tab"
+              id="tab-2"
+              aria-controls="panel-2"
+              aria-selected="false"
+            >
+              Security
+            </button>
+            <button
+              class="tabs__tab"
+              role="tab"
+              id="tab-3"
+              aria-controls="panel-3"
+              aria-selected="false"
+            >
+              Billing
+            </button>
+          </div>
+          <div
+            class="tabs__panel"
+            role="tabpanel"
+            id="panel-1"
+            aria-labelledby="tab-1"
+            tabindex="0"
           >
-            Actions
-          </button>
-          <div id="menu-list" class="menu__list" role="menu" aria-labelledby="menu-button">
-            <button class="menu__item" role="menuitem">Copy</button>
-            <button class="menu__item" role="menuitem">Cut</button>
-            <button class="menu__item" role="menuitem">Paste</button>
-            <button class="menu__item" role="menuitem">Rename</button>
+            Your name, photo and public details.
+          </div>
+          <div
+            class="tabs__panel"
+            role="tabpanel"
+            id="panel-2"
+            aria-labelledby="tab-2"
+            tabindex="0"
+          >
+            Your password and signed-in devices.
+          </div>
+          <div
+            class="tabs__panel"
+            role="tabpanel"
+            id="panel-3"
+            aria-labelledby="tab-3"
+            tabindex="0"
+          >
+            Your plan, invoices and payment method.
           </div>
         </div>
       </section>
 
-      <section aria-labelledby="h-toast">
-        <h2 id="h-toast">Toast</h2>
-        <button class="modal-trigger" data-severity="info">Info</button>
-        <button class="modal-trigger" data-severity="success">Success</button>
-        <button class="modal-trigger" data-severity="warning">Warning</button>
-        <button class="modal-trigger" data-severity="error">Error</button>
+      <section class="entry" aria-labelledby="h-menu">
+        <div>
+          <h2 id="h-menu">Menu</h2>
+          <p class="entry__keys">Arrows move, letters jump to an item, Esc closes.</p>
+        </div>
+        <div>
+          <div class="menu">
+            <button
+              id="menu-button"
+              class="menu__button"
+              aria-haspopup="menu"
+              aria-expanded="false"
+              aria-controls="menu-list"
+            >
+              Actions
+            </button>
+            <div id="menu-list" class="menu__list" role="menu" aria-labelledby="menu-button">
+              <button class="menu__item" role="menuitem">Copy</button>
+              <button class="menu__item" role="menuitem">Cut</button>
+              <button class="menu__item" role="menuitem">Paste</button>
+              <button class="menu__item" role="menuitem">Rename</button>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <section aria-labelledby="h-accordion">
-        <h2 id="h-accordion">Accordion</h2>
+      <section class="entry" aria-labelledby="h-toast">
+        <div>
+          <h2 id="h-toast">Toast</h2>
+          <p class="entry__keys">Info and success are polite. Warning and error interrupt.</p>
+        </div>
+        <div class="button-row">
+          <button class="modal-trigger" data-severity="info" data-message="Draft autosaved">
+            Info
+          </button>
+          <button class="modal-trigger" data-severity="success" data-message="Changes published">
+            Success
+          </button>
+          <button class="modal-trigger" data-severity="warning" data-message="Storage almost full">
+            Warning
+          </button>
+          <button class="modal-trigger" data-severity="error" data-message="Upload failed">
+            Error
+          </button>
+        </div>
+      </section>
+
+      <section class="entry" aria-labelledby="h-accordion">
+        <div>
+          <h2 id="h-accordion">Accordion</h2>
+          <p class="entry__keys">Enter toggles. Up and Down move between headings.</p>
+        </div>
         <div id="accordion">
           <h3 class="accordion__heading">
             <button
@@ -197,16 +322,24 @@
         </div>
       </section>
 
-      <section aria-labelledby="h-switch">
-        <h2 id="h-switch">Switch</h2>
-        <label class="switch" for="switch">
-          <input class="switch__input" id="switch" type="checkbox" role="switch" />
-          Email notifications
-        </label>
+      <section class="entry" aria-labelledby="h-switch">
+        <div>
+          <h2 id="h-switch">Switch</h2>
+          <p class="entry__keys">Space or Enter toggles.</p>
+        </div>
+        <div>
+          <label class="switch" for="switch">
+            <input class="switch__input" id="switch" type="checkbox" role="switch" />
+            Email notifications
+          </label>
+        </div>
       </section>
 
-      <section aria-labelledby="h-radio">
-        <h2 id="h-radio">Radio group</h2>
+      <section class="entry" aria-labelledby="h-radio">
+        <div>
+          <h2 id="h-radio">Radio group</h2>
+          <p class="entry__keys">Arrows move and select. Tab leaves the group.</p>
+        </div>
         <fieldset id="radio" class="radio-group">
           <legend class="radio-group__legend">Size</legend>
           <label class="radio-group__option"
@@ -251,13 +384,11 @@
 
       const toaster = createToaster(byId('toaster'));
       createMenu(byId('menu-button'), {
-        onSelect: (item) => toaster.show(`${item.textContent} chosen`),
+        onSelect: (item) => toaster.show(`${item.textContent.trim()} chosen`),
       });
       for (const button of document.querySelectorAll('[data-severity]')) {
-        const severity = button.dataset.severity;
-        button.addEventListener('click', () =>
-          toaster.show(`This is a ${severity} message`, { severity }),
-        );
+        const { severity, message } = button.dataset;
+        button.addEventListener('click', () => toaster.show(message, { severity }));
       }
     </script>
   </body>
