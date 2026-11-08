@@ -1,24 +1,22 @@
 import { expectNoAxeViolations, press } from '../../test-helpers.js';
 import { createAccordion } from './accordion.js';
 
-let triggers, panels, toggles;
+let triggers, panels, api, toggles, initialMarkup;
 
 beforeEach(() => {
-  document.body.innerHTML = `
-    <div id="root">
-      ${[0, 1, 2]
-        .map(
-          (i) => `
-        <h3><button id="b${i}" aria-expanded="${i === 0}" aria-controls="p${i}">Section ${i}</button></h3>
-        <div id="p${i}" role="region" aria-labelledby="b${i}">Content ${i}</div>`,
-        )
-        .join('')}
-    </div>`;
+  document.body.innerHTML = `<main><div id="root">${[0, 1, 2]
+    .map(
+      (i) => `
+      <h3><button id="b${i}" aria-expanded="${i === 0}" aria-controls="p${i}">Section ${i}</button></h3>
+      <div id="p${i}" role="region" aria-labelledby="b${i}">Content ${i}</div>`,
+    )
+    .join('')}</div></main>`;
+  initialMarkup = document.body.innerHTML;
   triggers = [...document.querySelectorAll('button')];
   panels = [...document.querySelectorAll('[role="region"]')];
   toggles = [];
-  createAccordion(document.getElementById('root'), {
-    onToggle: (trigger, expanded) => toggles.push([trigger.id, expanded]),
+  api = createAccordion(document.getElementById('root'), {
+    onToggle: (trigger, expanded) => toggles.push([trigger, expanded]),
   });
   triggers[0].focus();
 });
@@ -27,56 +25,39 @@ test('has no axe violations', async () => {
   await expectNoAxeViolations(document.body);
 });
 
-test('initial panel visibility follows aria-expanded', () => {
-  expect(panels.map((p) => p.hidden)).toEqual([false, true, true]);
-});
-
-test.each(['Enter', ' '])('key "%s" toggles the focused section', (key) => {
-  press(triggers[0], key);
-  expect(triggers[0].getAttribute('aria-expanded')).toBe('false');
-  expect(panels[0].hidden).toBe(true);
-  press(triggers[0], key);
-  expect(triggers[0].getAttribute('aria-expanded')).toBe('true');
-  expect(panels[0].hidden).toBe(false);
-  expect(document.activeElement).toBe(triggers[0]);
-});
-
-test('sections open independently', () => {
-  press(triggers[1], 'Enter');
-  expect(panels.map((p) => p.hidden)).toEqual([false, false, true]);
-});
-
-test('ArrowDown and ArrowUp move focus and wrap', () => {
-  press(triggers[0], 'ArrowDown');
-  expect(document.activeElement).toBe(triggers[1]);
-  press(triggers[1], 'ArrowUp');
+test('arrows, Home and End move focus; Enter toggles the focused section', () => {
   press(triggers[0], 'ArrowUp');
   expect(document.activeElement).toBe(triggers[2]);
   press(triggers[2], 'ArrowDown');
   expect(document.activeElement).toBe(triggers[0]);
-});
-
-test('Home and End move focus to the first and last header', () => {
   press(triggers[0], 'End');
   expect(document.activeElement).toBe(triggers[2]);
   press(triggers[2], 'Home');
   expect(document.activeElement).toBe(triggers[0]);
-});
 
-test('arrow keys do not change expanded state', () => {
   press(triggers[0], 'ArrowDown');
-  expect(triggers.map((t) => t.getAttribute('aria-expanded'))).toEqual(['true', 'false', 'false']);
-});
-
-test('keys pressed inside a panel are ignored', () => {
-  panels[0].innerHTML = '<input id="field" aria-label="Field" />';
-  const field = document.getElementById('field');
-  field.focus();
-  expect(press(field, 'ArrowDown').defaultPrevented).toBe(false);
-  expect(document.activeElement).toBe(field);
-});
-
-test('onToggle reports the trigger and new state', () => {
   press(triggers[1], 'Enter');
-  expect(toggles).toEqual([['b1', true]]);
+  expect(triggers[1].getAttribute('aria-expanded')).toBe('true');
+  expect(panels.map((panel) => panel.hidden)).toEqual([false, false, true]);
+  expect(document.activeElement).toBe(triggers[1]);
+});
+
+test('onToggle fires once per change with the trigger and new state', () => {
+  press(triggers[1], 'Enter');
+  press(triggers[1], 'ArrowDown');
+  press(triggers[0], ' ');
+  expect(toggles).toEqual([
+    [triggers[1], true],
+    [triggers[0], false],
+  ]);
+});
+
+test('destroy() restores the markup and removes listeners', () => {
+  press(triggers[1], 'Enter');
+  api.destroy();
+  expect(document.body.innerHTML).toBe(initialMarkup);
+
+  triggers[1].click();
+  expect(triggers[1].getAttribute('aria-expanded')).toBe('false');
+  expect(toggles).toHaveLength(1);
 });

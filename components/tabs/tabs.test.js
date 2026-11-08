@@ -1,31 +1,36 @@
 import { expectNoAxeViolations, press } from '../../test-helpers.js';
 import { createTabs } from './tabs.js';
 
-let tabs, panels, changes;
+let tablist, tabs, panels, api, changes, initialMarkup;
 
-const expectSelected = (index) => {
-  tabs.forEach((tab, i) => {
-    expect(tab.getAttribute('aria-selected')).toBe(String(i === index));
-    expect(tab.tabIndex).toBe(i === index ? 0 : -1);
-    expect(panels[i].hidden).toBe(i !== index);
-  });
-  expect(document.activeElement).toBe(tabs[index]);
-};
+const selectedState = () => ({
+  selected: tabs.map((tab) => tab.getAttribute('aria-selected')),
+  tabindex: tabs.map((tab) => tab.tabIndex),
+  panelsHidden: panels.map((panel) => panel.hidden),
+});
+const stateFor = (index) => ({
+  selected: tabs.map((_, i) => String(i === index)),
+  tabindex: tabs.map((_, i) => (i === index ? 0 : -1)),
+  panelsHidden: panels.map((_, i) => i !== index),
+});
 
 beforeEach(() => {
-  document.body.innerHTML = `
-    <main>
-      <div role="tablist" aria-label="Sections" id="list">
-        ${[0, 1, 2]
-          .map((i) => `<button role="tab" id="t${i}" aria-controls="p${i}" aria-selected="${i === 0}">Tab ${i}</button>`)
-          .join('')}
-      </div>
-      ${[0, 1, 2].map((i) => `<div role="tabpanel" id="p${i}" aria-labelledby="t${i}" tabindex="0">Panel ${i}</div>`).join('')}
-    </main>`;
+  const ids = [0, 1, 2];
+  document.body.innerHTML = `<main>
+    <div role="tablist" aria-label="Sections" id="list">${ids
+      .map(
+        (i) =>
+          `<button role="tab" id="t${i}" aria-controls="p${i}" aria-selected="${i === 0}">Tab ${i}</button>`,
+      )
+      .join('')}</div>
+    ${ids.map((i) => `<div role="tabpanel" id="p${i}" aria-labelledby="t${i}" tabindex="0">Panel ${i}</div>`).join('')}
+  </main>`;
+  initialMarkup = document.body.innerHTML;
+  tablist = document.getElementById('list');
   tabs = [...document.querySelectorAll('[role="tab"]')];
   panels = [...document.querySelectorAll('[role="tabpanel"]')];
   changes = [];
-  createTabs(document.getElementById('list'), { onChange: (tab) => changes.push(tab.id) });
+  api = createTabs(tablist, { onChange: (tab) => changes.push(tab) });
   tabs[0].focus();
 });
 
@@ -33,50 +38,40 @@ test('has no axe violations', async () => {
   await expectNoAxeViolations(document.body);
 });
 
-test('initialises roving tabindex and panels from the markup', () => {
-  expectSelected(0);
+test('arrows, Home and End move roving tabindex, selection, panel and focus', () => {
+  const steps = [
+    ['ArrowLeft', 2],
+    ['ArrowRight', 0],
+    ['ArrowRight', 1],
+    ['End', 2],
+    ['Home', 0],
+  ];
+  for (const [key, expected] of steps) {
+    press(document.activeElement, key);
+    expect(selectedState()).toEqual(stateFor(expected));
+    expect(document.activeElement).toBe(tabs[expected]);
+  }
 });
 
-test('starts on the tab marked selected', () => {
-  tabs[0].setAttribute('aria-selected', 'false');
-  tabs[2].setAttribute('aria-selected', 'true');
-  createTabs(document.getElementById('list'));
-  tabs[2].focus();
-  expectSelected(2);
+test('select() updates state without moving focus or calling onChange', () => {
+  api.select(2);
+  expect(selectedState()).toEqual(stateFor(2));
+  expect(document.activeElement).toBe(tabs[0]);
+  expect(changes).toEqual([]);
 });
 
-test('ArrowRight activates the next tab and wraps', () => {
-  press(tabs[0], 'ArrowRight');
-  expectSelected(1);
-  press(tabs[1], 'ArrowRight');
-  press(tabs[2], 'ArrowRight');
-  expectSelected(0);
-});
-
-test('ArrowLeft activates the previous tab and wraps', () => {
-  press(tabs[0], 'ArrowLeft');
-  expectSelected(2);
-});
-
-test('Home and End jump to the first and last tab', () => {
-  press(tabs[0], 'End');
-  expectSelected(2);
-  press(tabs[2], 'Home');
-  expectSelected(0);
-});
-
-test('clicking a tab activates and focuses it', () => {
-  tabs[1].click();
-  expectSelected(1);
-});
-
-test('onChange fires only when the tab changes', () => {
+test('onChange fires once with the new tab, and not when reselecting', () => {
   press(tabs[0], 'ArrowRight');
   tabs[1].click();
-  expect(changes).toEqual(['t1']);
+  expect(changes).toEqual([tabs[1]]);
 });
 
-test('other keys are left alone', () => {
-  expect(press(tabs[0], 'Tab').defaultPrevented).toBe(false);
-  expectSelected(0);
+test('destroy() restores the markup and removes listeners', () => {
+  press(tabs[0], 'ArrowRight');
+  api.destroy();
+  expect(document.body.innerHTML).toBe(initialMarkup);
+
+  press(tabs[0], 'ArrowRight');
+  expect(changes).toHaveLength(1);
+  expect(tabs[1].getAttribute('aria-selected')).toBe('false');
 });

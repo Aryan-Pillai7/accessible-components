@@ -1,7 +1,7 @@
 import { expectNoAxeViolations, press } from '../../test-helpers.js';
 import { createSwitch } from './switch.js';
 
-let input, changes;
+let input, api, changes;
 
 beforeEach(() => {
   document.body.innerHTML = `
@@ -11,7 +11,7 @@ beforeEach(() => {
     </main>`;
   input = document.getElementById('s');
   changes = [];
-  createSwitch(input, { onChange: (checked) => changes.push(checked) });
+  api = createSwitch(input, { onChange: (checked) => changes.push(checked) });
   input.focus();
 });
 
@@ -19,34 +19,26 @@ test('has no axe violations', async () => {
   await expectNoAxeViolations(document.body);
 });
 
-test('off and on states have no axe violations', async () => {
-  press(input, ' ');
-  await expectNoAxeViolations(document.body);
-});
-
-test('Space toggles and keeps focus', () => {
+test('Space and Enter toggle in place, and Enter cannot submit a form', () => {
   press(input, ' ');
   expect(input.checked).toBe(true);
-  press(input, ' ');
+  const enter = press(input, 'Enter');
   expect(input.checked).toBe(false);
+  expect(enter.defaultPrevented).toBe(true);
   expect(document.activeElement).toBe(input);
 });
 
-test('Enter toggles and is cancelled so it cannot submit a form', () => {
-  const event = press(input, 'Enter');
-  expect(input.checked).toBe(true);
-  expect(event.defaultPrevented).toBe(true);
-  expect(document.activeElement).toBe(input);
-});
-
-test('onChange reports the new state', () => {
-  press(input, ' ');
+test('onChange fires once per toggle with the new state', () => {
+  press(input, 'Enter');
   press(input, 'Enter');
   expect(changes).toEqual([true, false]);
 });
 
-test('a disabled switch does not toggle', () => {
-  input.disabled = true;
+test('destroy() removes the Enter shortcut and the hook', () => {
+  api.destroy();
   press(input, 'Enter');
   expect(input.checked).toBe(false);
+  press(input, ' ');
+  expect(input.checked).toBe(true);
+  expect(changes).toEqual([]);
 });

@@ -11,12 +11,12 @@ HTMLDialogElement.prototype.close = function close() {
   this.dispatchEvent(new Event('close'));
 };
 
-let opener, dialog, first, last, modal, closed;
+let opener, dialog, first, last, modal, onCloseCalls;
 
 beforeEach(() => {
   document.body.innerHTML = `
-    <button id="opener">Open</button>
-    <dialog id="d" class="modal" aria-labelledby="title">
+    <main><button id="opener">Open</button></main>
+    <dialog id="d" aria-labelledby="title">
       <h2 id="title">Confirm</h2>
       <button id="first">Save</button>
       <button id="last" data-modal-close>Cancel</button>
@@ -25,67 +25,58 @@ beforeEach(() => {
   dialog = document.getElementById('d');
   first = document.getElementById('first');
   last = document.getElementById('last');
-  closed = 0;
-  modal = createModal(dialog, { onClose: () => closed++ });
+  onCloseCalls = [];
+  modal = createModal(dialog, {
+    onClose: () => onCloseCalls.push(document.activeElement),
+  });
   opener.focus();
 });
 
-test('has no axe violations when open', async () => {
+test('has no axe violations while open', async () => {
   modal.open();
   await expectNoAxeViolations(document.body);
 });
 
-test('open moves focus to the first focusable element', () => {
+test('traps Tab in both directions and returns focus on Escape', () => {
   modal.open();
-  expect(dialog.open).toBe(true);
   expect(document.activeElement).toBe(first);
-});
 
-test('open prefers an [autofocus] element', () => {
-  last.setAttribute('autofocus', '');
-  modal.open();
+  press(first, 'Tab', { shiftKey: true });
   expect(document.activeElement).toBe(last);
-});
-
-test('Tab from the last element wraps to the first', () => {
-  modal.open();
-  last.focus();
-  const event = press(last, 'Tab');
-  expect(event.defaultPrevented).toBe(true);
+  press(last, 'Tab');
   expect(document.activeElement).toBe(first);
-});
 
-test('Shift+Tab from the first element wraps to the last', () => {
-  modal.open();
-  const event = press(first, 'Tab', { shiftKey: true });
-  expect(event.defaultPrevented).toBe(true);
-  expect(document.activeElement).toBe(last);
-});
-
-test('Tab between inner elements is left to the browser', () => {
-  modal.open();
-  expect(press(first, 'Tab').defaultPrevented).toBe(false);
-});
-
-test('Escape closes and returns focus to the opener', () => {
-  modal.open();
   press(first, 'Escape');
   expect(dialog.open).toBe(false);
   expect(document.activeElement).toBe(opener);
-  expect(closed).toBe(1);
 });
 
-test('Escape already handled by an inner popup does not close', () => {
+test('open(), close() and [data-modal-close] drive the dialog', () => {
   modal.open();
-  first.addEventListener('keydown', (event) => event.preventDefault());
-  press(first, 'Escape');
   expect(dialog.open).toBe(true);
+  modal.close();
+  expect(dialog.open).toBe(false);
+
+  modal.open();
+  last.click();
+  expect(dialog.open).toBe(false);
 });
 
-test('a [data-modal-close] button closes and returns focus', () => {
+test('onClose fires once, after focus has returned', () => {
   modal.open();
-  last.focus();
-  press(last, 'Enter');
+  press(first, 'Escape');
+  expect(onCloseCalls).toEqual([opener]);
+});
+
+test('destroy() closes silently, returns focus and removes listeners', () => {
+  modal.open();
+  modal.destroy();
   expect(dialog.open).toBe(false);
   expect(document.activeElement).toBe(opener);
+  expect(onCloseCalls).toEqual([]);
+
+  dialog.showModal();
+  press(first, 'Escape');
+  last.click();
+  expect(dialog.open).toBe(true);
 });

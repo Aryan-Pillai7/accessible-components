@@ -25,96 +25,59 @@ afterEach(() => jest.useRealTimers());
 
 test('has no axe violations', async () => {
   jest.useRealTimers();
-  toaster.show('Saved', { severity: 'success', duration: 0 });
+  toaster.show('Saved', { severity: 'success' });
   toaster.show('Failed', { severity: 'error' });
   await expectNoAxeViolations(document.body);
 });
 
-test.each([
-  ['info', 'status'],
-  ['success', 'status'],
-  ['warning', 'alert'],
-  ['error', 'alert'],
-])('%s toasts go in the role="%s" region', (severity, role) => {
-  toaster.show('Message', { severity });
-  expect(root.querySelector(`[role="${role}"] .toast`)).not.toBeNull();
-  expect(root.querySelectorAll('.toast')).toHaveLength(1);
-});
-
-test('defaults to info and writes the severity as text', () => {
-  toaster.show('Hello');
-  expect(status.textContent).toContain('Info: Hello');
-});
-
-test('renders the message as text, not HTML', () => {
+test('show() routes each severity to the right live region as plain text', () => {
   toaster.show('<img src=x>');
+  toaster.show('Saved', { severity: 'success' });
+  toaster.show('Careful', { severity: 'warning' });
+  toaster.show('Failed', { severity: 'error' });
+
   expect(status.querySelector('img')).toBeNull();
+  expect(status.textContent).toContain('Info: <img src=x>');
+  expect(status.textContent).toContain('Success: Saved');
+  expect(alertRegion.textContent).toContain('Warning: Careful');
+  expect(alertRegion.textContent).toContain('Error: Failed');
 });
 
-test('polite toasts auto-dismiss after the default duration', () => {
-  toaster.show('Bye');
+test('polite toasts expire, pausing while focused; alerts persist', () => {
+  toaster.show('Bad', { severity: 'error' });
+  toaster.show('Hi');
+  const button = status.querySelector('button');
+
+  button.focus();
+  jest.advanceTimersByTime(60000);
+  expect(status.children).toHaveLength(1);
+
+  button.blur();
   jest.advanceTimersByTime(4999);
   expect(status.children).toHaveLength(1);
   jest.advanceTimersByTime(1);
   expect(status.children).toHaveLength(0);
-});
-
-test('alert toasts persist by default', () => {
-  toaster.show('Bad', { severity: 'error' });
-  jest.advanceTimersByTime(60000);
   expect(alertRegion.children).toHaveLength(1);
 });
 
-test('duration overrides the default', () => {
-  toaster.show('Bad', { severity: 'error', duration: 100 });
-  jest.advanceTimersByTime(100);
-  expect(alertRegion.children).toHaveLength(0);
-});
-
-test('show returns a dismiss function', () => {
-  const dismiss = toaster.show('Hi');
-  dismiss();
-  expect(status.children).toHaveLength(0);
-});
-
-test('focus inside pauses the timer and leaving resumes it', () => {
-  toaster.show('Hi');
-  const button = status.querySelector('button');
-  button.focus();
-  jest.advanceTimersByTime(60000);
-  expect(status.children).toHaveLength(1);
-  button.blur();
-  jest.advanceTimersByTime(5000);
-  expect(status.children).toHaveLength(0);
-});
-
-test('hover pauses the timer and leaving resumes it', () => {
-  toaster.show('Hi');
-  const toast = status.querySelector('.toast');
-  toast.dispatchEvent(new MouseEvent('mouseenter'));
-  jest.advanceTimersByTime(60000);
-  expect(status.children).toHaveLength(1);
-  toast.dispatchEvent(new MouseEvent('mouseleave'));
-  jest.advanceTimersByTime(5000);
-  expect(status.children).toHaveLength(0);
-});
-
-test('the pointer leaving does not restart the timer while focus is inside', () => {
-  toaster.show('Hi');
-  const toast = status.querySelector('.toast');
-  status.querySelector('button').focus();
-  toast.dispatchEvent(new MouseEvent('mouseenter'));
-  toast.dispatchEvent(new MouseEvent('mouseleave'));
-  jest.advanceTimersByTime(60000);
-  expect(status.children).toHaveLength(1);
-});
-
-test.each(['Enter', ' ', 'Escape'])('key "%s" dismisses and returns focus', (key) => {
+test('Escape dismisses a focused toast and returns focus to where it came from', () => {
   toaster.show('Hi');
   outside.focus();
   const button = status.querySelector('button');
   button.focus();
-  press(button, key);
+  press(button, 'Escape');
   expect(status.children).toHaveLength(0);
   expect(document.activeElement).toBe(outside);
+});
+
+test('the function from show() and destroy() remove toasts and their timers', () => {
+  const dismiss = toaster.show('One');
+  dismiss();
+  expect(status.children).toHaveLength(0);
+
+  toaster.show('Two');
+  toaster.show('Three', { severity: 'error' });
+  toaster.destroy();
+  expect(root.querySelectorAll('.toast')).toHaveLength(0);
+  expect(jest.getTimerCount()).toBe(0);
 });

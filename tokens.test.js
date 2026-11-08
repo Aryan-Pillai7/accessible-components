@@ -21,22 +21,20 @@ function contrast(a, b) {
   return (hi + 0.05) / (lo + 0.05);
 }
 
-test('contrast formula matches known values', () => {
+test('the contrast formula matches known WCAG values', () => {
   expect(contrast('#000000', '#ffffff')).toBeCloseTo(21);
   expect(contrast('#777777', '#ffffff')).toBeCloseTo(4.48, 2);
 });
 
-test('pairs are declared', () => {
+test('every declared pair meets its contrast threshold', () => {
   expect(pairs.length).toBeGreaterThan(0);
+  const failures = pairs
+    .map(({ fg, bg, min }) => ({ fg, bg, min, ratio: contrast(tokens[fg], tokens[bg]) }))
+    .filter(({ ratio, min }) => !(ratio >= min));
+  expect(failures).toEqual([]);
 });
 
-test.each(pairs)('$fg on $bg is at least $min:1', ({ fg, bg, min }) => {
-  expect(tokens[fg]).toBeDefined();
-  expect(tokens[bg]).toBeDefined();
-  expect(contrast(tokens[fg], tokens[bg])).toBeGreaterThanOrEqual(min);
-});
-
-test('every color token is covered by a pair', () => {
-  const paired = new Set(pairs.flatMap((p) => [p.fg, p.bg]));
-  expect(Object.keys(tokens).filter((t) => !paired.has(t))).toEqual([]);
+test('every color token is covered by a declared pair', () => {
+  const paired = new Set(pairs.flatMap((pair) => [pair.fg, pair.bg]));
+  expect(Object.keys(tokens).filter((token) => !paired.has(token))).toEqual([]);
 });
