@@ -33,7 +33,7 @@ Implements the [APG Accordion pattern](https://www.w3.org/WAI/ARIA/apg/patterns/
 
 ## Options
 
-`createAccordion(root, options)`
+`createAccordion(root, options)` returns `{ destroy() }`, which removes all listeners and restores the original attributes.
 
 | Option     | Type       | Description |
 | ---------- | ---------- | ----------- |

@@ -37,7 +37,7 @@ Implements the [APG Combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/c
 
 ## Options
 
-`createCombobox(root, options)`
+`createCombobox(root, options)` returns `{ destroy() }`, which removes all listeners, clears the status text and restores the original attributes. The typed value is left alone.
 
 | Option     | Type       | Description |
 | ---------- | ---------- | ----------- |

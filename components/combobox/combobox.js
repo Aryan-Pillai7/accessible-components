@@ -1,9 +1,20 @@
+import { snapshotAttributes } from '../snapshot-attributes.js';
+
 // `root` contains the input[role="combobox"], its [role="listbox"] and a [role="status"].
 export function createCombobox(root, { onSelect } = {}) {
+  const controller = new AbortController();
+  const { signal } = controller;
   const input = root.querySelector('[role="combobox"]');
   const listbox = root.querySelector('[role="listbox"]');
   const status = root.querySelector('[role="status"]');
   const options = [...listbox.querySelectorAll('[role="option"]')];
+  const restore = snapshotAttributes([input, listbox, ...options], [
+    'aria-expanded',
+    'aria-activedescendant',
+    'aria-selected',
+    'hidden',
+    'id',
+  ]);
   options.forEach((option, i) => {
     option.id = `${listbox.id}-${i}`;
   });
@@ -72,49 +83,65 @@ export function createCombobox(root, { onSelect } = {}) {
     setActive(next);
   }
 
-  input.addEventListener('input', openList);
-  input.addEventListener('blur', close);
+  input.addEventListener('input', openList, { signal });
+  input.addEventListener('blur', close, { signal });
 
-  input.addEventListener('keydown', (event) => {
-    switch (event.key) {
-      case 'ArrowDown':
-        event.preventDefault();
-        if (event.altKey) openList();
-        else move(1);
-        break;
-      case 'ArrowUp':
-        event.preventDefault();
-        if (event.altKey) close();
-        else move(-1);
-        break;
-      case 'Enter':
-        if (isOpen() && active()) {
+  input.addEventListener(
+    'keydown',
+    (event) => {
+      switch (event.key) {
+        case 'ArrowDown':
           event.preventDefault();
-          accept(active());
-        }
-        break;
-      case 'Escape':
-        if (!isOpen() && !input.value) break;
-        event.preventDefault();
-        if (isOpen()) close();
-        else input.value = '';
-        break;
-      case 'Home':
-      case 'End':
-      case 'ArrowLeft':
-      case 'ArrowRight':
-        // Native caret movement; visual focus returns to the text.
-        setActive(null);
-        break;
-    }
-  });
+          if (event.altKey) openList();
+          else move(1);
+          break;
+        case 'ArrowUp':
+          event.preventDefault();
+          if (event.altKey) close();
+          else move(-1);
+          break;
+        case 'Enter':
+          if (isOpen() && active()) {
+            event.preventDefault();
+            accept(active());
+          }
+          break;
+        case 'Escape':
+          if (!isOpen() && !input.value) break;
+          event.preventDefault();
+          if (isOpen()) close();
+          else input.value = '';
+          break;
+        case 'Home':
+        case 'End':
+        case 'ArrowLeft':
+        case 'ArrowRight':
+          // Native caret movement; visual focus returns to the text.
+          setActive(null);
+          break;
+      }
+    },
+    { signal },
+  );
 
   // Keep focus in the input so a click doesn't blur it and close the list first.
-  listbox.addEventListener('mousedown', (event) => event.preventDefault());
-  listbox.addEventListener('click', (event) => {
-    const option = event.target.closest('[role="option"]');
-    if (option) accept(option);
-  });
+  listbox.addEventListener('mousedown', (event) => event.preventDefault(), { signal });
+  listbox.addEventListener(
+    'click',
+    (event) => {
+      const option = event.target.closest('[role="option"]');
+      if (option) accept(option);
+    },
+    { signal },
+  );
 
   setExpanded(false);
+
+  return {
+    destroy() {
+      controller.abort();
+      status.textContent = '';
+      restore();
+    },
+  };
 }

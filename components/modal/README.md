@@ -32,7 +32,9 @@ Implements the [APG Dialog (Modal) pattern](https://www.w3.org/WAI/ARIA/apg/patt
 
 ## Options
 
-`createModal(dialog, options)` returns `{ open(), close() }`.
+`createModal(dialog, options)` returns `{ open(), close(), destroy() }`.
+
+`destroy()` removes all listeners. If the dialog is open it also closes it and returns focus, without calling `onClose`.
 
 | Option    | Type       | Description                          |
 | --------- | ---------- | ------------------------------------ |

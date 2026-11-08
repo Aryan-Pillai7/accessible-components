@@ -32,7 +32,9 @@ Implements the [APG Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 
 ## Options
 
-`createTabs(tablist, options)`
+`createTabs(tablist, options)` returns `{ select(index), destroy() }`.
+
+`select(index)` changes the active tab without moving focus or calling `onChange`. `destroy()` removes all listeners and restores the original attributes.
 
 | Option     | Type       | Description |
 | ---------- | ---------- | ----------- |

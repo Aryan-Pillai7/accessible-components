@@ -8,6 +8,8 @@ const SEVERITIES = {
 // `root` must already contain the empty role="status" and role="alert" regions:
 // screen readers only announce changes to live regions they already know about.
 export function createToaster(root) {
+  const dismissers = new Set();
+
   function show(message, { severity = 'info', duration } = {}) {
     const config = SEVERITIES[severity];
     const ms = duration ?? config.duration;
@@ -37,6 +39,7 @@ export function createToaster(root) {
       if (toast.contains(document.activeElement)) returnFocusTo?.focus();
       clearTimeout(timer);
       toast.remove();
+      dismissers.delete(dismiss);
     }
 
     button.addEventListener('click', dismiss);
@@ -55,9 +58,15 @@ export function createToaster(root) {
 
     toast.append(text, button);
     root.querySelector(`[role="${config.region}"]`).append(toast);
+    dismissers.add(dismiss);
     startTimer();
     return dismiss;
   }
 
-  return { show };
+  // Toast listeners live on the toast elements, so removing them cleans up too.
+  function destroy() {
+    for (const dismiss of [...dismissers]) dismiss();
+  }
+
+  return { show, destroy };
 }

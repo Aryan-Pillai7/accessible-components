@@ -32,7 +32,7 @@ Implements the [APG Radio Group pattern](https://www.w3.org/WAI/ARIA/apg/pattern
 
 ## Options
 
-`createRadioGroup(fieldset, options)`
+`createRadioGroup(fieldset, options)` returns `{ destroy() }`, which removes the listeners. The native radios keep working.
 
 | Option     | Type       | Description |
 | ---------- | ---------- | ----------- |

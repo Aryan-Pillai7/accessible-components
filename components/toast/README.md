@@ -26,7 +26,7 @@ Non-modal notifications announced through live regions, following the [APG Alert
 
 ## Options
 
-`createToaster(root)` returns `{ show(message, options) }`. `show` returns a function that dismisses that toast.
+`createToaster(root)` returns `{ show(message, options), destroy() }`. `show` returns a function that dismisses that toast. `destroy()` removes every visible toast and cancels its timer.
 
 | Option     | Type     | Default  | Description |
 | ---------- | -------- | -------- | ----------- |

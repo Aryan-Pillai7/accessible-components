@@ -35,7 +35,7 @@ Implements the [APG Menu Button pattern](https://www.w3.org/WAI/ARIA/apg/pattern
 
 ## Options
 
-`createMenu(button, options)`
+`createMenu(button, options)` returns `{ destroy() }`, which removes all listeners and restores the original attributes.
 
 | Option     | Type       | Description |
 | ---------- | ---------- | ----------- |

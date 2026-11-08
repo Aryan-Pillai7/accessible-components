@@ -26,7 +26,7 @@ Implements the [APG Switch pattern](https://www.w3.org/WAI/ARIA/apg/patterns/swi
 
 ## Options
 
-`createSwitch(input, options)`
+`createSwitch(input, options)` returns `{ destroy() }`, which removes the listeners. The native checkbox keeps working.
 
 | Option     | Type       | Description |
 | ---------- | ---------- | ----------- |
